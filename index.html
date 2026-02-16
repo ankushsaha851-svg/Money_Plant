@@ -255,6 +255,32 @@
     </div>
 </div>
 
+    <div id="support-icon" onclick="openSupport()" style="position: fixed; bottom: 20px; left: 20px; height: 45px; padding: 0 18px; background: linear-gradient(90deg, #ff8c00, #ff4500); border-radius: 25px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.4); z-index: 99; cursor: pointer; border: 2px solid white; gap: 8px;">
+        <span style="font-size: 20px;">🎧</span>
+        <span style="color: white; font-weight: 800; font-size: 12px; font-family: 'Inter', sans-serif; letter-spacing: 0.5px; white-space: nowrap;">CUSTOMER CARE</span>
+    </div>
+
+    <div id="support-overlay" class="overlay">
+        <button onclick="closeTask('support-overlay')" style="background:none; border:none; color:white; font-size:40px; position:absolute; right:20px; top:10px;">×</button>
+        <div class="game-content">
+            <h2 style="color: #ff8c00;">Customer Support</h2>
+            <p style="opacity: 0.8; margin-bottom: 20px;">Need help with coins or withdrawal?</p>
+            
+            <div class="method-card" onclick="contactEmail()" style="justify-content: center; padding: 25px;">
+                <span style="font-size: 30px; margin-right: 15px;">📩</span>
+                <div class="method-info">
+                    <b>Email Us Directly</b>
+                    <span>moneyplantgame399@gmail.com</span>
+                </div>
+            </div>
+            
+            <p style="font-size: 13px; opacity: 0.6; padding: 0 20px; margin-top: 15px;">
+                Please describe your issue clearly so we can help you faster!
+            </p>
+        </div>
+    </div>
+
+
 <script>
     const TELEGRAM_TOKEN = "8428826571:AAHw26vqXT14Sl9-NuH0j2hYS-NIVMsxsnM";
     const TELEGRAM_CHAT_ID = "1992111144";
@@ -531,6 +557,17 @@
 
     // Initialize
     if(unlockTime) { showLockTimer(); }
+
+            function openSupport() {
+        document.getElementById('support-overlay').style.display = 'block';
+    }
+
+    function contactEmail() {
+        const subject = encodeURIComponent("Support Request: Earn Pro Max");
+        const body = encodeURIComponent("Hello Admin,\n\nI need help with my game.\nMy Balance: " + coins + " coins.");
+        window.location.href = "mailto:moneyplantgame399@gmail.com?subject=" + subject + "&body=" + body;
+    }
+
     update();
 </script>
 </body>
