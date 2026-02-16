@@ -349,11 +349,15 @@
         }, 1000);
     }
 
-    function resetEverything() {
+        function resetEverything() {
         limits = { wheel: 0, scratch: 0, captcha: 0, visit: 0 };
         dailyAdCount = 0;
         unlockTime = null;
         localStorage.removeItem('unlock_time');
+        
+        // This line resets the bonus so they can claim it again
+        localStorage.setItem('daily_claimed', 'false'); 
+        
         update();
     }
 
