@@ -488,9 +488,21 @@
     }
 
     function showAdGate(callback) {
-        if(typeof show_10610418 === 'function') { show_10610418().then(() => callback()); }
-        else { callback(); }
+    if (typeof show_10610418 === 'function') {
+        show_10610418()
+            .then(() => {
+                // The ad finished successfully, give the reward
+                callback();
+            })
+            .catch(() => {
+                // The ad was blocked by DNS or AdBlocker
+                alert("⚠️ Ad failed to load. Please disable your AdBlocker or Private DNS and try again to earn coins!");
+            });
+    } else {
+        // The ad script itself (libtl.com) was blocked from loading
+        alert("⚠️ Ad system not detected. Please disable AdBlocker and refresh the page.");
     }
+}
 
     function openWithdraw() { document.getElementById('withdraw-overlay').style.display = 'block'; }
     function selectPayment(method) { selectedMethod = method; document.getElementById('payment-input-area').style.display = 'block'; document.getElementById('pay-details').placeholder = method === 'UPI' ? "Enter UPI ID" : "Enter Email"; }
