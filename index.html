@@ -293,13 +293,17 @@
         g.appendChild(p); g.appendChild(t); svg.appendChild(g);
     });
 
-    function update() {
+        function update() {
         document.getElementById('coins').innerText = coins;
         document.getElementById('rupees').innerText = (coins/1000).toFixed(2);
         localStorage.setItem('c', coins);
         localStorage.setItem('task_limits', JSON.stringify(limits));
         localStorage.setItem('w_history', JSON.stringify(withdrawHistory));
         localStorage.setItem('daily_ad_steps', dailyAdCount);
+
+        // --- ADD THIS LINE BELOW ---
+        if (!localStorage.getItem('daily_claimed')) { localStorage.setItem('daily_claimed', 'false'); }
+        // ---------------------------
 
         document.getElementById('limit-wheel').innerText = limits.wheel + "/30";
         document.getElementById('limit-scratch').innerText = limits.scratch + "/30";
@@ -477,11 +481,6 @@
         if(limits.visit >= MAX_LIMIT) return alert("Limit reached!");
         window.open("https://omg10.com/4/10610443", "_blank");
         setTimeout(() => { coins += 10; limits.visit++; update(); startTimer(); }, 3000); 
-    }
-
-    function handleDailyStep() {
-        if (dailyAdCount >= 5) return;
-        showAdGate(() => { dailyAdCount++; update(); });
     }
 
     function showAdGate(callback) {
