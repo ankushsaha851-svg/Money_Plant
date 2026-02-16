@@ -363,17 +363,49 @@
         });
     }
 
-    function updateDailyUI() {
+        function updateDailyUI() {
         const btn = document.getElementById('daily-action-btn');
-        if (dailyAdCount >= 5) {
-            btn.innerText = "All Steps Done!"; btn.style.background = "#00f260";
-        } else { btn.innerText = `Watch Ad (${dailyAdCount}/5)`; }
+        let isClaimed = localStorage.getItem('daily_claimed') === 'true';
+
+        if (isClaimed) {
+            btn.innerText = "Bonus Claimed! ✅"; 
+            btn.style.background = "#00f260";
+            btn.disabled = true;
+        } else if (dailyAdCount >= 5) {
+            btn.innerText = "CLAIM 50 COINS 💰"; 
+            btn.style.background = "linear-gradient(90deg, #ffd700, #ff8c00)";
+            btn.disabled = false;
+        } else { 
+            btn.innerText = `Watch Ad (${dailyAdCount}/5)`; 
+            btn.style.background = "#f7971e";
+            btn.disabled = false;
+        }
+
         for (let i = 1; i <= 5; i++) {
             const c = document.getElementById(`circle-${i}`);
             c.style.background = i <= dailyAdCount ? "white" : "rgba(255,255,255,0.2)";
             c.style.color = i <= dailyAdCount ? "#6a11cb" : "white";
         }
     }
+
+    function handleDailyStep() {
+        let isClaimed = localStorage.getItem('daily_claimed') === 'true';
+        if (isClaimed) return;
+
+        if (dailyAdCount >= 5) {
+            coins += 50; 
+            localStorage.setItem('daily_claimed', 'true');
+            alert("Success! 50 Coins added to your balance.");
+            update();
+            return;
+        }
+
+        showAdGate(() => { 
+            dailyAdCount++; 
+            update(); 
+        });
+    }
+
 
     function openTask(id) {
         if(isTimerActive) return alert("Please wait for the timer!");
