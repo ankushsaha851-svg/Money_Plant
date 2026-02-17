@@ -546,9 +546,9 @@ function claimVisitReward() {
     const currentTime = Date.now();
     const secondsPassed = (currentTime - taskStartTime) / 1000;
 
-    if (secondsPassed < 10) {
+    if (secondsPassed < 20) {
         // This ONLY shows if they click the card too early
-        alert("⚠️ You came before 10 seconds! Wait for 10 seconds after visiting website.");
+        alert("⚠️ You came before 20 seconds! Wait for 20 seconds after visiting website.");
     } else {
         // This only runs if they actually waited
         coins += 10;
