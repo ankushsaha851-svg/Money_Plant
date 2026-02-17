@@ -195,7 +195,10 @@
     <span class="task-limit" id="limit-visit">0/30</span>
     <span style="font-size:30px;">🌐</span><br>
     <span>Visit & Earn</span><br>
-    <button class="action-btn" onclick="visitSite()" style="margin-top:10px; background:white; color:orange;">VISIT NOW</button>
+    <div style="display:flex; gap:5px; margin-top:10px;">
+        <button onclick="visitSite()" style="flex:1; padding:8px; border-radius:8px; border:none; background:white; color:orange; font-weight:bold;">VISIT</button>
+        <button onclick="claimVisitReward()" style="flex:1; padding:8px; border-radius:8px; border:none; background:#28a745; color:white; font-weight:bold;">CLAIM</button>
+    </div>
 </div>
 
     <div id="history-overlay" class="overlay">
@@ -524,41 +527,38 @@
         } else { alert("Wrong!"); }
     }
 
-    let taskStartTime = 0;
-let isVisiting = false;
+    let taskStartTime = 0; 
 
 function visitSite() {
     if(isTimerActive) return alert("Wait!");
     if(limits.visit >= MAX_LIMIT) return alert("Limit reached!");
     
     taskStartTime = Date.now(); // Record start time
-    isVisiting = true; 
     window.open("https://omg10.com/4/10610443", "_blank");
 }
 
-// THIS AUTOMATICALLY RUNS WHEN THE USER COMES BACK TO YOUR APP
-window.onfocus = function() {
-    if (isVisiting && taskStartTime !== 0) {
-        const currentTime = Date.now();
-        const secondsPassed = (currentTime - taskStartTime) / 1000;
-
-        if (secondsPassed < 10) {
-            // THE ALERT YOU ASKED FOR
-            isVisiting = false; // Stop the check so alert doesn't repeat
-            alert("⚠️ You came before 10 second! Wait for 10 second by visiting website.");
-            taskStartTime = 0; 
-        } else {
-            // AUTOMATIC SUCCESS
-            coins += 10;
-            limits.visit++;
-            update();
-            startTimer();
-            isVisiting = false;
-            taskStartTime = 0;
-            alert("✅ Automatic Success! 10 Coins added.");
-        }
+function claimVisitReward() {
+    if (taskStartTime === 0) {
+        alert("Please click Visit & Earn first!");
+        return;
     }
-};
+
+    const currentTime = Date.now();
+    const secondsPassed = (currentTime - taskStartTime) / 1000;
+
+    if (secondsPassed < 10) {
+        // This ONLY shows if they click the card too early
+        alert("⚠️ You came before 10 seconds! Wait for 10 seconds after visiting website.");
+    } else {
+        // This only runs if they actually waited
+        coins += 10;
+        limits.visit++;
+        update();
+        startTimer();
+        taskStartTime = 0; // Reset
+        alert("✅ Success! 10 Coins added.");
+    }
+}
 
 
     function showAdGate(callback) {
