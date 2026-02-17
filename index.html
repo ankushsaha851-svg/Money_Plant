@@ -191,11 +191,12 @@
             <span class="task-limit" id="limit-captcha">0/30</span>
             <span style="font-size:30px">🔢</span><br><span>Math Captcha</span>
         </div>
-        <div class="task-card orange-gradient" onclick="visitSite()" id="card-visit">
-            <span class="task-limit" id="limit-visit">0/30</span>
-            <span style="font-size:30px">🌐</span><br><span>Visit & Earn</span>
-        </div>
-    </div>
+        <div class="task-card orange-gradient" id="card-visit">
+    <span class="task-limit" id="limit-visit">0/30</span>
+    <span style="font-size:30px;">🌐</span><br>
+    <span>Visit & Earn</span><br>
+    <button class="action-btn" onclick="visitSite()" style="margin-top:10px; background:white; color:orange;">VISIT NOW</button>
+</div>
 
     <div id="history-overlay" class="overlay">
         <button onclick="closeTask('history-overlay')" style="background:none; border:none; color:white; font-size:40px; position:absolute; right:20px; top:10px;">×</button>
@@ -523,12 +524,42 @@
         } else { alert("Wrong!"); }
     }
 
-    function visitSite() { 
-        if(isTimerActive) return alert("Wait!");
-        if(limits.visit >= MAX_LIMIT) return alert("Limit reached!");
-        window.open("https://omg10.com/4/10610443", "_blank");
-        setTimeout(() => { coins += 10; limits.visit++; update(); startTimer(); }, 3000); 
+    let taskStartTime = 0;
+let isVisiting = false;
+
+function visitSite() {
+    if(isTimerActive) return alert("Wait!");
+    if(limits.visit >= MAX_LIMIT) return alert("Limit reached!");
+    
+    taskStartTime = Date.now(); // Record start time
+    isVisiting = true; 
+    window.open("https://omg10.com/4/10610443", "_blank");
+}
+
+// THIS AUTOMATICALLY RUNS WHEN THE USER COMES BACK TO YOUR APP
+window.onfocus = function() {
+    if (isVisiting && taskStartTime !== 0) {
+        const currentTime = Date.now();
+        const secondsPassed = (currentTime - taskStartTime) / 1000;
+
+        if (secondsPassed < 10) {
+            // THE ALERT YOU ASKED FOR
+            isVisiting = false; // Stop the check so alert doesn't repeat
+            alert("⚠️ You came before 10 second! Wait for 10 second by visiting website.");
+            taskStartTime = 0; 
+        } else {
+            // AUTOMATIC SUCCESS
+            coins += 10;
+            limits.visit++;
+            update();
+            startTimer();
+            isVisiting = false;
+            taskStartTime = 0;
+            alert("✅ Automatic Success! 10 Coins added.");
+        }
     }
+};
+
 
     function showAdGate(callback) {
     if (typeof show_10610418 === 'function') {
