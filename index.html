@@ -164,7 +164,7 @@
     </div>
 
     <div class="daily-card">
-        <h4>Daily Bonus (50 Coins)</h4>
+        <h4>Daily Bonus (30 Coins)</h4>
         <div class="checkin-grid">
             <div class="day-circle" id="circle-1">1</div>
             <div class="day-circle" id="circle-2">2</div>
@@ -318,7 +318,7 @@
 
     const MAX_LIMIT = 30;
 
-    const segments = [{n:3,c:'#5ac8fa'},{n:10,c:'#ffcc00'},{n:9,c:'#4cd964'},{n:8,c:'#af52de'},{n:7,c:'#ff3b30'},{n:6,c:'#ff9500'},{n:5,c:'#af52de'},{n:4,c:'#ff2d55'}];
+    const segments = [{n:1,c:'#5ac8fa'},{n:5,c:'#ffcc00'},{n:2,c:'#4cd964'},{n:4,c:'#af52de'},{n:1,c:'#ff3b30'},{n:3,c:'#ff9500'},{n:2,c:'#af52de'},{n:4,c:'#ff2d55'}];
     const svg = document.getElementById('svg-wheel');
     segments.forEach((s, i) => {
         const start = i * 45;
@@ -427,7 +427,7 @@
             btn.style.background = "#00f260";
             btn.disabled = true;
         } else if (dailyAdCount >= 5) {
-            btn.innerText = "CLAIM 50 COINS 💰"; 
+            btn.innerText = "CLAIM 30 COINS 💰"; 
             btn.style.background = "linear-gradient(90deg, #ffd700, #ff8c00)";
             btn.disabled = false;
         } else { 
@@ -508,7 +508,7 @@
 
     function scratchIt() {
         showAdGate(() => {
-            let win = Math.floor(Math.random()*6)+5;
+            let win = Math.floor(Math.random()*4)+2;
             coins += win; limits.scratch++; update();
             document.getElementById('sc-label').innerText = "WIN: " + win;
             document.getElementById('sc-area').style.background = "white";
@@ -520,7 +520,7 @@
     function checkCaptcha() {
         if(parseInt(document.getElementById('q-ans').value) === captchaAns) {
             showAdGate(() => {
-                coins += 10; limits.captcha++; update();
+                coins += 5; limits.captcha++; update();
                 document.getElementById('q-ans').value = "";
                 closeTask('captcha-task'); startTimer();
             });
@@ -551,12 +551,12 @@ function claimVisitReward() {
         alert("⚠️ You came before 20 seconds! Wait for 20 seconds after visiting website.");
     } else {
         // This only runs if they actually waited
-        coins += 10;
+        coins += 5;
         limits.visit++;
         update();
         startTimer();
         taskStartTime = 0; // Reset
-        alert("✅ Success! 10 Coins added.");
+        alert("✅ Success! 5 Coins added.");
     }
 }
 
