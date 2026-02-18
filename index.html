@@ -191,13 +191,12 @@
             <span class="task-limit" id="limit-captcha">0/30</span>
             <span style="font-size:30px">🔢</span><br><span>Math Captcha</span>
         </div>
-        <div class="task-card orange-gradient" id="card-visit">
+        <div class="task-card orange-gradient" id="card-visit" onclick="watchAndEarn()">
     <span class="task-limit" id="limit-visit">0/30</span>
-    <span style="font-size:30px;">🌐</span><br>
-    <span>Visit & Earn</span><br>
-    <div style="display:flex; gap:5px; margin-top:10px;">
-        <button onclick="visitSite()" style="flex:1; padding:8px; border-radius:8px; border:none; background:white; color:orange; font-weight:bold;">VISIT</button>
-        <button onclick="claimVisitReward()" style="flex:1; padding:8px; border-radius:8px; border:none; background:#28a745; color:white; font-weight:bold;">CLAIM</button>
+    <span style="font-size:30px;">📺</span><br>
+    <span>Watch & Earn</span><br>
+    <div style="margin-top:10px;">
+        <button style="width:100%; padding:8px; border-radius:8px; border:none; background:white; color:#ff5e62; font-weight:bold;">WATCH VIDEO</button>
     </div>
 </div>
 
@@ -529,37 +528,19 @@
 
     let taskStartTime = 0; 
 
-function visitSite() {
-    if(isTimerActive) return alert("Wait!");
-    if(limits.visit >= MAX_LIMIT) return alert("Limit reached!");
-    
-    taskStartTime = Date.now(); // Record start time
-    window.open("https://omg10.com/4/10610443", "_blank");
-}
+function watchAndEarn() {
+    if(isTimerActive) return alert("⏳ Please wait for the timer!");
+    if(limits.visit >= 30) return alert("🚫 Daily limit reached!");
 
-function claimVisitReward() {
-    if (taskStartTime === 0) {
-        alert("Please click Visit & Earn first!");
-        return;
-    }
-
-    const currentTime = Date.now();
-    const secondsPassed = (currentTime - taskStartTime) / 1000;
-
-    if (secondsPassed < 20) {
-        // This ONLY shows if they click the card too early
-        alert("⚠️ You came before 20 seconds! Wait for 20 seconds after visiting website.");
-    } else {
-        // This only runs if they actually waited
+    // Use Monetag (showAdGate) instead of Adsgram
+    showAdGate(() => {
         coins += 5;
         limits.visit++;
         update();
         startTimer();
-        taskStartTime = 0; // Reset
-        alert("✅ Success! 5 Coins added.");
-    }
+        alert("🎉 Success! 5 Coins added.");
+    });
 }
-
 
     function showAdGate(callback) {
     if (typeof show_10610418 === 'function') {
