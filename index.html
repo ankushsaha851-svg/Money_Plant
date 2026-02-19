@@ -530,14 +530,34 @@
     }
 
     function checkCaptcha() {
-        if(parseInt(document.getElementById('q-ans').value) === captchaAns) {
-            showAdGate(() => {
-                coins += 5; limits.captcha++; update();
-                document.getElementById('q-ans').value = "";
-                closeTask('captcha-task'); startTimer();
-            });
-        } else { alert("Wrong!"); }
+    let userAns = parseInt(document.getElementById('q-ans').value);
+    
+    if(userAns === captchaAns) {
+        // --- ADSGRAM REWARD INTEGRATION ---
+        if (!window.Adsgram) {
+            return alert("⚠️ Ad system loading... Please open the app in Telegram!");
+        }
+
+        const AdController = window.Adsgram.init({ blockId: "23280" });
+
+        AdController.show().then((result) => {
+            // Success: They watched the video
+            coins += 10; // Updated reward to 10 coins
+            limits.captcha++; 
+            update();
+            
+            document.getElementById('q-ans').value = "";
+            closeTask('captcha-task'); 
+            startTimer(); // Starts your 20-second cooldown
+            alert("🎉 Correct! 10 Coins added.");
+        }).catch((result) => {
+            // Failure: They skipped or error
+            alert("⚠️ You must watch the full video to claim your 10 coins!");
+        });
+    } else { 
+        alert("❌ Wrong answer! Try again."); 
     }
+}
 
     function watchAndEarn() {
     if(isTimerActive) return alert("⏳ Please wait for the timer!");
