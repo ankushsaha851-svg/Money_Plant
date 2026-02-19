@@ -165,7 +165,7 @@
     </div>
 
     <div class="daily-card">
-        <h4>Daily Bonus (30 Coins)</h4>
+        <h4>Daily Bonus (50 Coins)</h4>
         <div class="checkin-grid">
             <div class="day-circle" id="circle-1">1</div>
             <div class="day-circle" id="circle-2">2</div>
@@ -447,11 +447,11 @@
     let isClaimed = localStorage.getItem('daily_claimed') === 'true';
     if (isClaimed) return;
 
-    // If they have watched all 5 ads, give them 30 coins
+    // If they have watched all 5 ads, give them 50 coins
     if (dailyAdCount >= 5) {
-        coins += 30; // Changed to 30 coins as requested
+        coins += 50; // Changed to 50 coins as requested
         localStorage.setItem('daily_claimed', 'true');
-        alert("🎉 Success! 30 Coins added to your balance.");
+        alert("🎉 Success! 50 Coins added to your balance.");
         update();
         return;
     }
