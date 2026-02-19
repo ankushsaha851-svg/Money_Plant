@@ -6,6 +6,7 @@
     <title>Earn Pro Max</title>
     <script src="https://pl28729308.effectivegatecpm.com/fa/b0/cc/fab0cc32b8a64517204fb06dbc69d7e6.js"></script>
     <script src='//libtl.com/sdk.js' data-zone='10610418' data-sdk='show_10610418'></script>
+    <script src="https://sad.adsgram.ai/js/sad.min.js"></script> 
     <style>
         :root {
             --bg-dark: #12141d;
@@ -526,19 +527,24 @@
         } else { alert("Wrong!"); }
     }
 
-    let taskStartTime = 0; 
-
-function watchAndEarn() {
+    function watchAndEarn() {
     if(isTimerActive) return alert("⏳ Please wait for the timer!");
     if(limits.visit >= 30) return alert("🚫 Daily limit reached!");
 
-    // Use Monetag (showAdGate) instead of Adsgram
-    showAdGate(() => {
-        coins += 5;
+    // Initialize Adsgram
+    const AdController = window.Adsgram.init({ blockId: "int-23250" });
+
+    AdController.show().then((result) => {
+        // This runs if ad is watched successfully
+        coins += 10; // I increased this to 10 for video ads!
         limits.visit++;
         update();
         startTimer();
-        alert("🎉 Success! 5 Coins added.");
+        alert("🎉 Success! 10 Coins added.");
+    }).catch((result) => {
+        // This runs if they skip or there's an error
+        alert("⚠️ Video not finished. Watch the full ad to earn coins!");
+        console.log("Adsgram info:", result.description);
     });
 }
 
