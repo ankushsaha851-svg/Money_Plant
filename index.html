@@ -443,23 +443,35 @@
     }
 
     function handleDailyStep() {
-        let isClaimed = localStorage.getItem('daily_claimed') === 'true';
-        if (isClaimed) return;
+    let isClaimed = localStorage.getItem('daily_claimed') === 'true';
+    if (isClaimed) return;
 
-        if (dailyAdCount >= 5) {
-            coins += 50; 
-            localStorage.setItem('daily_claimed', 'true');
-            alert("Success! 50 Coins added to your balance.");
-            update();
-            return;
-        }
-
-        showAdGate(() => { 
-            dailyAdCount++; 
-            update(); 
-        });
+    // If they have watched all 5 ads, give them 30 coins
+    if (dailyAdCount >= 5) {
+        coins += 30; // Changed to 30 coins as requested
+        localStorage.setItem('daily_claimed', 'true');
+        alert("🎉 Success! 30 Coins added to your balance.");
+        update();
+        return;
     }
 
+    // --- ADSGRAM REWARD INTEGRATION ---
+    if (!window.Adsgram) {
+        return alert("⚠️ Ad system loading... Please open the app in Telegram to watch ads!");
+    }
+
+    const AdController = window.Adsgram.init({ blockId: "23280" });
+
+    AdController.show().then((result) => {
+        // Success: Ad watched fully
+        dailyAdCount++; 
+        update();
+        alert("✅ Step " + dailyAdCount + "/5 completed!");
+    }).catch((result) => {
+        // Error or Skip
+        alert("⚠️ You must watch the full video to count the step!");
+    });
+}
 
     function openTask(id) {
         if(isTimerActive) return alert("Please wait for the timer!");
