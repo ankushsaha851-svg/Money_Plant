@@ -215,16 +215,16 @@
         <button onclick="closeTask('withdraw-overlay')" style="background:none; border:none; color:white; font-size:40px; position:absolute; right:20px; top:10px;">×</button>
         <div class="game-content" style="display: block; margin-top: 60px;">
             <h2>Withdraw Coins</h2>
-            <p style="opacity: 0.7; margin-bottom: 20px;">Min. Withdrawal: 10,000 Coins (₹10)</p>
+            <p style="opacity: 0.7; margin-bottom: 20px;">Min. Withdrawal: 7.500 Coins (₹10)</p>
             <div class="method-card" onclick="selectPayment('UPI')"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" class="method-img"><div class="method-info"><b>UPI Transfer</b><span>PhonePe, GPay, Paytm</span></div></div>
             <div class="method-card" onclick="selectPayment('Amazon')"><img src="https://img.icons8.com/color/96/amazon.png" class="method-img"><div class="method-info"><b>Amazon Gift Card</b><span>Shopping Voucher</span></div></div>
             <div class="method-card" onclick="selectPayment('Play Store')"><img src="https://img.icons8.com/color/96/google-play.png" class="method-img"><div class="method-info"><b>Google Play Redeem</b><span>Play Store Credits</span></div></div>
             <div id="payment-input-area" style="display:none; margin-top: 20px;">
                 <p style="text-align: left; font-size: 14px; margin-left: 10%; margin-bottom: 5px;">Select Amount:</p>
                 <div class="amount-selector">
-                    <button class="amount-btn active" onclick="setWithdrawAmount(10000, this)">10,000 (₹10)</button>
-                    <button class="amount-btn" onclick="setWithdrawAmount(20000, this)">20,000 (₹20)</button>
-                    <button class="amount-btn" onclick="setWithdrawAmount(50000, this)">50,000 (₹50)</button>
+                    <button class="amount-btn active" onclick="setWithdrawAmount(7500, this)">7,500 (₹10)</button>
+                    <button class="amount-btn" onclick="setWithdrawAmount(15000, this)">15,000 (₹20)</button>
+                    <button class="amount-btn" onclick="setWithdrawAmount(37500, this)">37,500 (₹50)</button>
                 </div>
                 <input type="text" id="pay-details" class="input-text" placeholder="Enter Details">
                 <button class="action-btn" id="submit-request-btn" onclick="processWithdrawal()">SUBMIT REQUEST</button>
@@ -311,7 +311,7 @@
     let isTimerActive = false;
     let captchaAns = 0;
     let selectedMethod = "";
-    let selectedWithdrawAmount = 10000;
+    let selectedWithdrawAmount = 7500;
     let withdrawHistory = JSON.parse(localStorage.getItem('w_history')) || [];
     let limits = JSON.parse(localStorage.getItem('task_limits')) || { wheel: 0, scratch: 0, captcha: 0, visit: 0 };
     let unlockTime = localStorage.getItem('unlock_time') || null;
@@ -342,7 +342,7 @@
 
         function update() {
         document.getElementById('coins').innerText = coins;
-        document.getElementById('rupees').innerText = (coins/1000).toFixed(2);
+        document.getElementById('rupees').innerText = (coins/750).toFixed(2);
         localStorage.setItem('c', coins);
         localStorage.setItem('task_limits', JSON.stringify(limits));
         localStorage.setItem('w_history', JSON.stringify(withdrawHistory));
@@ -427,7 +427,7 @@
             btn.style.background = "#00f260";
             btn.disabled = true;
         } else if (dailyAdCount >= 5) {
-            btn.innerText = "CLAIM 30 COINS 💰"; 
+            btn.innerText = "CLAIM 50 COINS 💰"; 
             btn.style.background = "linear-gradient(90deg, #ffd700, #ff8c00)";
             btn.disabled = false;
         } else { 
@@ -603,7 +603,7 @@
 
     async function processWithdrawal() {
         let details = document.getElementById('pay-details').value;
-        let rsValue = selectedWithdrawAmount / 1000;
+        let rsValue = (selectedWithdrawAmount / 750);
         let btn = document.getElementById('submit-request-btn');
         if(coins < selectedWithdrawAmount) return alert("Insufficient Balance!");
         if(details.length < 5) return alert("Enter valid details.");
